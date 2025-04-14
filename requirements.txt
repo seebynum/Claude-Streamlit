@@ -1,11 +1,10 @@
-promptlayer
 streamlit
 openai
-langchain
+langchain>=0.0.310
+pypdf
 pinecone-client
 tiktoken
 termcolor
 requests
 anthropic
-langchain>=0.0.310
-pypdf
+promptlayer
