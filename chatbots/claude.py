@@ -10,7 +10,7 @@ from chatbots.utils import (
     chat_completion_request,
 )
 
-models = ["claude-2.0", "claude-1", "claude-v1-100k"]
+models = ["claude-3-7-sonnet-20250219", "claude-2.0", "claude-1", "claude-v1-100k"]
 
 context_windows = {
     "claude-2.0": 100000,
@@ -49,6 +49,11 @@ class Claude:
             self.system_prompt = system_prompt
         else:
             self.system_prompt = ASK_TEMPLATE
+        
+        if model is "claude-3-7-sonnet-20250219":
+            self.thinking = True
+        else:
+            self.thinking = False
 
     def change_settings(self, **args):
         """
@@ -135,9 +140,24 @@ class Claude:
         # limit
         messages = self.assemble_history_messages(
             system_message, question_message)
-        chat_response = chat_completion_request(
-            messages, type="claude", model=self.model, temperature=self.temperature, tags=["claude", self.model], stream=stream
-        )
+        if self.thinking:
+            chat_response = chat_completion_request(
+                messages, 
+                type="claude", 
+                model=self.model, 
+                temperature=self.temperature, 
+                tags=["claude", self.model], 
+                stream=stream,
+                max_tokens = 64000,
+                thinking = {
+                    "budget_tokens": 2048,
+                    "type": "enabled"
+                }
+            )
+        else:
+            chat_response = chat_completion_request(
+                messages, type="claude", model=self.model, temperature=self.temperature, tags=["claude", self.model], stream=stream
+            )
         # stream
         if stream:
             full_answer = ""
