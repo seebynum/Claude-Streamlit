@@ -7,3 +7,4 @@ tiktoken
 termcolor
 requests
 anthropic
+chatbots
