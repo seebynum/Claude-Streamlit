@@ -7,4 +7,5 @@ tiktoken
 termcolor
 requests
 anthropic
-chatbots
+langchain>=0.0.310
+pypdf
