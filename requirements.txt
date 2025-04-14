@@ -8,3 +8,4 @@ termcolor
 requests
 anthropic
 promptlayer
+langchain-community
